@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,18 +14,17 @@ import lombok.NoArgsConstructor;
 @Entity
 public class TemperatureEntity {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 	private long userId;
-    private Float value;
-    private String sensorId;
-    private String deviceId;
-    private long timestamp;
+	private Float value;
+	@ManyToOne
+	private SensorEntity sensor;
+	@ManyToOne
+	private DeviceEntity device;
+	private long timestamp;
 
-    public TemperatureEntity(TemperatureRestReqEntity restEnt) 
-    {
-    	setSensorId(restEnt.getSensorId());
-    	setDeviceId(restEnt.getDeviceId());
-    	setValue(restEnt.getValue());
-    }
+	public TemperatureEntity(TemperatureRestReqEntity restEnt) {
+		setValue(restEnt.getValue());
+	}
 }
