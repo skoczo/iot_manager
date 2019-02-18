@@ -1,11 +1,12 @@
 package com.skoczo.iot_manager.dao.temp;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,11 +14,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames= {"sensorId"}))
-public class SensorEntity {
-	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
+public class GroupEntity {
 	
-	private String sensorId;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+
+	private String name;
+	
+	@OneToMany
+	private List<SensorEntity> sensors;
 }

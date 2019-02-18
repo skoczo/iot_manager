@@ -1,7 +1,9 @@
 package com.skoczo.iot_manager.controllers;
 
-import java.util.Optional;
+import java.util.Calendar;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +21,10 @@ import com.skoczo.iot_manager.dao.temp.TemperatureRestReqEntity;
 
 @RestController
 public class TemperatureController {
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
-	private TemperatureEntityRepository repository;
+	private TemperatureEntityRepository tempRepository;
 
 	@Autowired
 	private DeviceEntityRepository devRpository;
@@ -50,23 +54,34 @@ public class TemperatureController {
 		tempEnt.setSensor(sensor);
 		tempEnt.setTimestamp(System.currentTimeMillis());
 
-		System.out.println(tempEnt);
-		repository.save(tempEnt);
+		logger.info(tempEnt.toString());
+		tempRepository.save(tempEnt);
 	}
 
 	@GetMapping("/temperatures")
 	public Iterable<TemperatureEntity> getTemperatures() {
-		return repository.findAll();
+		return tempRepository.findAll();
 	}
 
-	@GetMapping("/temperature/{id}")
-	public TemperatureEntity getTemperature(@PathVariable Long id) {
-		Optional<TemperatureEntity> entity = repository.findById(id);
-		if (entity.isPresent()) {
-			return entity.get();
-		} else {
-			return null;
-		}
-
+	@GetMapping("/temperatures/sensor/{sensorId}")
+	public Iterable<TemperatureEntity> getTemperature(@PathVariable String sensorId) {
+		SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
+		return tempRepository.findBySensor(sensor);
+	}
+	
+	@GetMapping("/temperatures/today")
+	public Iterable<TemperatureEntity> getTemperaturesToday() {
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR_OF_DAY, 0);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		today.set(Calendar.MILLISECOND, 0);
+		
+		return tempRepository.findTodayTemperatures(today.getTimeInMillis());
+	}
+	
+	@GetMapping("/temperatures/{from}/{to}")
+	public Iterable<TemperatureEntity> getTemperaturesTimeframe(@PathVariable Long from, @PathVariable Long to) {		
+		return tempRepository.findTemperaturesInTimeframe(from, to);
 	}
 }

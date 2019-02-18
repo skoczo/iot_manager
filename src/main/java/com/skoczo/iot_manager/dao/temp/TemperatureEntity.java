@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 public class TemperatureEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
+	
 	private long userId;
 	private Float value;
 	@ManyToOne
