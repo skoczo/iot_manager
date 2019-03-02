@@ -5,6 +5,7 @@ import java.util.Calendar;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.skoczo.iot_manager.dao.temp.TemperatureEntity;
 import com.skoczo.iot_manager.dao.temp.TemperatureEntityRepository;
 import com.skoczo.iot_manager.dao.temp.TemperatureRestReqEntity;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class TemperatureController {
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -67,6 +69,12 @@ public class TemperatureController {
 	public Iterable<TemperatureEntity> getTemperature(@PathVariable String sensorId) {
 		SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
 		return tempRepository.findBySensor(sensor);
+	}
+	
+	@GetMapping("/temperatures/sensor/{sensorId}/current")
+	public TemperatureEntity getCurrentTemperature(@PathVariable String sensorId) {
+		SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
+		return tempRepository.findFirstBySensorOrderByTimestamp(sensor);
 	}
 	
 	@GetMapping("/temperatures/today")

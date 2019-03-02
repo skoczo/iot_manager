@@ -15,4 +15,6 @@ public interface TemperatureEntityRepository extends CrudRepository<TemperatureE
 
 	@Query("select t from #{#entityName} t where t.timestamp >= :from and t.timestamp <= :to")
 	List<TemperatureEntity> findTemperaturesInTimeframe(@Param("from") Long from, @Param("to") Long to);
+	
+	public TemperatureEntity findFirstBySensorOrderByTimestamp(SensorEntity sensor);
 }

@@ -21,17 +21,18 @@ public class IotManagerApplication {
 	@Bean
 	public CommandLineRunner demo(AuthUserRepository repository) {
 		return (args) -> {
-			AuthUser user = new AuthUser();
-			user.setUsername("test");
-			user.setPassword("password");
-			user.setIotToken("59C7FB4F07D9C55CC740CA4DD912EEDC");
-			
-			repository.save(user);
-			
-			for(AuthUser u : repository.findAll()) {
+			if (repository.findByUsername("test") == null) {
+				AuthUser user = new AuthUser();
+				user.setUsername("test");
+				user.setPassword("password");
+				user.setIotToken("59C7FB4F07D9C55CC740CA4DD912EEDC");
+
+				repository.save(user);
+			}
+
+			for (AuthUser u : repository.findAll()) {
 				log.info(u.toString());
 			}
 		};
 	}
 }
-
