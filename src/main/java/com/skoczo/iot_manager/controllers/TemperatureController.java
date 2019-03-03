@@ -74,7 +74,7 @@ public class TemperatureController {
 	@GetMapping("/temperatures/sensor/{sensorId}/current")
 	public TemperatureEntity getCurrentTemperature(@PathVariable String sensorId) {
 		SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
-		return tempRepository.findFirstBySensorOrderByTimestamp(sensor);
+		return tempRepository.findFirstBySensorOrderByTimestampDesc(sensor);
 	}
 	
 	@GetMapping("/temperatures/today")
