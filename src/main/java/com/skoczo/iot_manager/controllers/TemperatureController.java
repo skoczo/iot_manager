@@ -77,19 +77,19 @@ public class TemperatureController {
 		return tempRepository.findFirstBySensorOrderByTimestampDesc(sensor);
 	}
 	
-	@GetMapping("/temperatures/today")
-	public Iterable<TemperatureEntity> getTemperaturesToday() {
+	@GetMapping("/temperatures/{sensorId}/today")
+	public Iterable<TemperatureEntity> getTemperaturesToday(@PathVariable String sensorId) {
 		Calendar today = Calendar.getInstance();
 		today.set(Calendar.HOUR_OF_DAY, 0);
 		today.set(Calendar.MINUTE, 0);
 		today.set(Calendar.SECOND, 0);
 		today.set(Calendar.MILLISECOND, 0);
 		
-		return tempRepository.findTodayTemperatures(today.getTimeInMillis());
+		return tempRepository.findTodayTemperatures(sensorId, today.getTimeInMillis());
 	}
 	
-	@GetMapping("/temperatures/{from}/{to}")
-	public Iterable<TemperatureEntity> getTemperaturesTimeframe(@PathVariable Long from, @PathVariable Long to) {		
-		return tempRepository.findTemperaturesInTimeframe(from, to);
+	@GetMapping("/temperatures/{sensorId}/{from}/{to}")
+	public Iterable<TemperatureEntity> getTemperaturesTimeframe(@PathVariable String sensorId, @PathVariable Long from, @PathVariable Long to) {		
+		return tempRepository.findTemperaturesInTimeframe(sensorId,from, to);
 	}
 }
