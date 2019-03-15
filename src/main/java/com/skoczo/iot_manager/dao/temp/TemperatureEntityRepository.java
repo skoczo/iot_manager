@@ -10,8 +10,7 @@ public interface TemperatureEntityRepository extends CrudRepository<TemperatureE
 
 	List<TemperatureEntity> findBySensor(SensorEntity sensor);
 	
-	@Query("select t from #{#entityName} t where t.timestamp >= :timestamp and t.sensor.sensorId = :sensorId")
-	List<TemperatureEntity> findTodayTemperatures(@Param("sensorId") String sensorId, @Param("timestamp") Long todayTimestamp);
+	List<TemperatureEntity> findBySensorAndTimestampGreaterThan(SensorEntity sensor, Long timestamp);
 
 	@Query("select t from #{#entityName} t where t.timestamp >= :from and t.timestamp <= :to and t.sensor.id = :sensorId")
 	List<TemperatureEntity> findTemperaturesInTimeframe(@Param("sensorId") String sensorId, @Param("from") Long from, @Param("to") Long to);

@@ -1,6 +1,12 @@
 package com.skoczo.iot_manager.controllers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skoczo.iot_manager.controllers.result.dto.TemperatureResultEntity;
 import com.skoczo.iot_manager.dao.temp.DeviceEntity;
 import com.skoczo.iot_manager.dao.temp.DeviceEntityRepository;
 import com.skoczo.iot_manager.dao.temp.SensorEntity;
@@ -77,15 +84,25 @@ public class TemperatureController {
 		return tempRepository.findFirstBySensorOrderByTimestampDesc(sensor);
 	}
 	
-	@GetMapping("/temperatures/{sensorId}/today")
-	public Iterable<TemperatureEntity> getTemperaturesToday(@PathVariable String sensorId) {
+	@GetMapping("/temperatures/today")
+	public List<TemperatureResultEntity> getTemperaturesToday(@PathParam("sensorIds") String[] sensorIds) {
 		Calendar today = Calendar.getInstance();
 		today.set(Calendar.HOUR_OF_DAY, 0);
 		today.set(Calendar.MINUTE, 0);
 		today.set(Calendar.SECOND, 0);
 		today.set(Calendar.MILLISECOND, 0);
 		
-		return tempRepository.findTodayTemperatures(sensorId, today.getTimeInMillis());
+		List<TemperatureResultEntity> result = new ArrayList<>();
+		
+		for(String sensorId : sensorIds) {
+			TemperatureResultEntity resEntity = new TemperatureResultEntity();
+			
+			SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
+			resEntity.setSensor(sensor);
+			resEntity.setTemperatures(tempRepository.findBySensorAndTimestampGreaterThan(sensor, today.getTimeInMillis()));
+			result.add(resEntity);
+		}
+		return result;
 	}
 	
 	@GetMapping("/temperatures/{sensorId}/{from}/{to}")
