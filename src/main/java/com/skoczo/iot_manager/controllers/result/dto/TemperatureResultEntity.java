@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.skoczo.iot_manager.dao.temp.SensorEntity;
 import com.skoczo.iot_manager.dao.temp.TemperatureEntity;
+
 import lombok.Data;
 
 @Data
