@@ -27,4 +27,6 @@ public interface UserAuthenticationService {
    * @param user the user to logout
    */
   void logout(User user);
+
+Optional<User> findByIOTToken(String iotToken);
 }

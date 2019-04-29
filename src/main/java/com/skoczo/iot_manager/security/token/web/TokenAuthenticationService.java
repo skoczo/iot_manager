@@ -40,6 +40,11 @@ final class TokenAuthenticationService implements UserAuthenticationService {
       .map(map -> map.get("username"))
       .flatMap(users::findByUsername);
   }
+  
+  @Override
+  public Optional<User> findByIOTToken(final String iotToken) {
+    return users.findByIotToken(iotToken);
+  }
 
   @Override
   public void logout(final User user) {

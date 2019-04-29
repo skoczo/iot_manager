@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-@EnableWebSecurity
 @SpringBootApplication
 public class IotManagerApplication {
 	private static final Logger log = LoggerFactory.getLogger(IotManagerApplication.class);

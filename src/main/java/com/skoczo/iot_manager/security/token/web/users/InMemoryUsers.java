@@ -28,4 +28,9 @@ final class InMemoryUsers implements UserCrudService {
 	public Optional<User> findByUsername(final String username) {
 		return users.values().stream().filter(u -> Objects.equals(username, u.getUsername())).findFirst();
 	}
+
+	@Override
+	public Optional<User> findByIotToken(String iotToken) {
+		return users.values().stream().filter(u -> Objects.equals(iotToken, u.getIotToken())).findFirst();
+	}
 }

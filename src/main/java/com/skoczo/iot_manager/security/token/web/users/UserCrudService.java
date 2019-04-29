@@ -16,4 +16,6 @@ public interface UserCrudService {
 	Optional<User> find(String id);
 
 	Optional<User> findByUsername(String username);
+	
+	Optional<User> findByIotToken(String iotToken);
 }
