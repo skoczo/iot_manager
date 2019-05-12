@@ -15,7 +15,6 @@ import com.skoczo.iot_manager.dao.temp.GroupEntityRepository;
 import com.skoczo.iot_manager.dao.temp.SensorEntity;
 import com.skoczo.iot_manager.dao.temp.SensorEntityRepository;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class GroupController {
 	@Autowired

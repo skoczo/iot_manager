@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skoczo.iot_manager.dao.temp.DeviceEntity;
 import com.skoczo.iot_manager.dao.temp.DeviceEntityRepository;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class DeviceController {
 	@Autowired

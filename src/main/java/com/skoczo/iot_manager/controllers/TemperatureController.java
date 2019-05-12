@@ -26,7 +26,6 @@ import com.skoczo.iot_manager.dao.temp.TemperatureEntity;
 import com.skoczo.iot_manager.dao.temp.TemperatureEntityRepository;
 import com.skoczo.iot_manager.dao.temp.TemperatureRestReqEntity;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/data")
 public class TemperatureController {

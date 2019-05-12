@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skoczo.iot_manager.dao.temp.SensorEntity;
 import com.skoczo.iot_manager.dao.temp.SensorEntityRepository;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class SensorController {
 	@Autowired

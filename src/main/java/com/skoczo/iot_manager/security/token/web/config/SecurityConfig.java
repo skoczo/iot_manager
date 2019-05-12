@@ -74,6 +74,7 @@ class SecurityConfig {
 				      .authenticated()
 				    .and()
 				      .csrf().disable()
+				      .cors().disable()
 				      .formLogin().disable()
 				      .httpBasic().disable()
 				      .logout().disable();
@@ -118,6 +119,7 @@ class SecurityConfig {
 				      .authenticated()
 				    .and()
 				      .csrf().disable()
+				      .cors().disable()
 				      .formLogin().disable()
 				      .httpBasic().disable()
 				      .logout().disable();
