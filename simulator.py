@@ -20,6 +20,7 @@ def random_temp():
 
 if __name__ == '__main__':
     while True:
+        print('sent temp')
         request(sensor1)
         request(sensor2)
-        time.sleep(60 * 5)
+        time.sleep(5)

@@ -1,67 +1,61 @@
 package com.skoczo.iot_manager.security.token.web.users;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static java.util.Objects.requireNonNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Value
-@Builder
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Entity
 public class User implements UserDetails {
 	private static final long serialVersionUID = 2396654715019746670L;
 
-	String id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
 	// must be uniq
-	String username;
-	String password;
+	@Column(unique = true, nullable = false)
+	private String username;
+
+	@Column(nullable = false)
+	private String password;
 
 	// must be uniq
-	String iotToken;
-
-	@JsonCreator
-	User(@JsonProperty("id") final String id, @JsonProperty("username") final String username,
-			@JsonProperty("password") final String password, @JsonProperty("iotToken") final String iotToken) {
-		super();
-		this.id = requireNonNull(id);
-		this.username = requireNonNull(username);
-		this.password = requireNonNull(password);
-		this.iotToken = requireNonNull(iotToken);
-	}
-
-	@JsonIgnore
+	@Column(unique = true, nullable = false)
+	private String iotToken;
+	
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		return new ArrayList<>();
 	}
 
-	@JsonIgnore
 	@Override
 	public String getPassword() {
 		return password;
 	}
 
-	@JsonIgnore
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
-	@JsonIgnore
 	@Override
 	public boolean isAccountNonLocked() {
 		return true;
 	}
 
-	@JsonIgnore
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;

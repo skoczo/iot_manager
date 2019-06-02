@@ -1,29 +1,20 @@
 package com.skoczo.iot_manager.security.token.web;
 
+import java.util.Objects;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.google.common.collect.ImmutableMap;
 import com.skoczo.iot_manager.security.token.web.users.User;
 import com.skoczo.iot_manager.security.token.web.users.UserAuthenticationService;
 import com.skoczo.iot_manager.security.token.web.users.UserCrudService;
 
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
-
-import java.util.Objects;
-import java.util.Optional;
-
-import static lombok.AccessLevel.PACKAGE;
-import static lombok.AccessLevel.PRIVATE;
-
 @Service
-@AllArgsConstructor(access = PACKAGE)
-@FieldDefaults(level = PRIVATE, makeFinal = true)
 final class TokenAuthenticationService implements UserAuthenticationService {
-  @NonNull
-  TokenService tokens;
-  @NonNull
-  UserCrudService users;
+  @Autowired TokenService tokens;
+  @Autowired UserCrudService users;
 
   @Override
   public Optional<String> login(final String username, final String password) {

@@ -3,6 +3,8 @@ package com.skoczo.iot_manager.controllers.pub;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,22 +27,18 @@ final class PublicUsersController {
   @NonNull
   UserAuthenticationService authentication;
   @NonNull
-  UserCrudService users;
+  @Autowired UserCrudService users;
 
   @PostMapping("/register")
   public String register(
     @RequestParam("username") final String username,
     @RequestParam("password") final String password) {
-    users
-      .save(
-        User
-          .builder()
-          .id(username)
-          .username(username)
-          .password(password)
-          .iotToken(UUID.randomUUID().toString())
-          .build()
-      );
+	  User user = new User();
+	  user.setUsername(username);
+	  user.setPassword(password);
+	  user.setIotToken(UUID.randomUUID().toString());	  
+	  
+    users.save(user);
 
     return login(username, password);
   }
