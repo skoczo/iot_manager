@@ -40,32 +40,6 @@ public class TemperatureController {
 	@Autowired
 	private SensorEntityRepository sensorRepository;
 
-	@PostMapping("/temperature")
-	public void setTemperature(@RequestBody TemperatureRestReqEntity tempRestEnt) {
-    	DeviceEntity device = devRpository.findByDeviceId(tempRestEnt.getDeviceId());
-    	if(device == null) {
-    		device = new DeviceEntity();
-    		device.setDeviceId(tempRestEnt.getDeviceId());
-    		device = devRpository.save(device);
-    	}
-    	
-    	SensorEntity sensor = sensorRepository.findBySensorId(tempRestEnt.getSensorId());
-    	if(sensor == null) {
-    		sensor = new SensorEntity();
-    		sensor.setSensorId(tempRestEnt.getSensorId());
-    		sensor = sensorRepository.save(sensor);
-    	}
-    	
-		TemperatureEntity tempEnt = new TemperatureEntity(tempRestEnt);
-		tempEnt.setUserId(1);
-		tempEnt.setDevice(device);
-		tempEnt.setSensor(sensor);
-		tempEnt.setTimestamp(System.currentTimeMillis());
-
-		logger.info(tempEnt.toString());
-		tempRepository.save(tempEnt);
-	}
-
 	@GetMapping("/temperatures")
 	public Iterable<TemperatureEntity> getTemperatures() {
 		return tempRepository.findAll();

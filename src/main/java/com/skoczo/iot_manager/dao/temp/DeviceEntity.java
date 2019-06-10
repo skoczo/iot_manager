@@ -20,4 +20,5 @@ public class DeviceEntity {
 	private Long id;
 	
 	private String deviceId;
+	private Integer userId;
 }

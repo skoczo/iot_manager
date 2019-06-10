@@ -33,7 +33,7 @@ import com.skoczo.iot_manager.security.token.web.TokenAuthenticationProvider;
 
 @EnableWebSecurity
 class SecurityConfig {
-	private static final  RequestMatcher iotUrl = new AntPathRequestMatcher("/data/**");
+	private static final  RequestMatcher iotUrl = new AntPathRequestMatcher("/iot/**");
 
   private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
     new AntPathRequestMatcher("/public/users/**"));

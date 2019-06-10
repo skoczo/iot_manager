@@ -22,6 +22,8 @@ public class GroupEntity {
 
 	private String name;
 	
+	private Integer userId;
+	
 	@ManyToMany
 	private List<SensorEntity> sensors;
 }

@@ -17,12 +17,14 @@ public class SensorController {
 	
 	@GetMapping("/sensors")
 	public Iterable<SensorEntity> getAllDevices() {
+		// TODO find only logged user sensors 
 		return sensorRepository.findAll();
 	}
 	
 	@PatchMapping("/sensor/{sensorId}/{name}")
 	public SensorEntity setSensorName(@PathVariable String sensorId, @PathVariable String name) {
 		SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
+		//TODO: check if not managing other user sensor
 		if(sensor != null) {
 			sensor.setName(name);
 			return sensorRepository.save(sensor);
