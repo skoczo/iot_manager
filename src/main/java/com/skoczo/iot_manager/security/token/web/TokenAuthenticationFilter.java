@@ -1,22 +1,24 @@
 package com.skoczo.iot_manager.security.token.web;
 
-import lombok.experimental.FieldDefaults;
+import static com.google.common.net.HttpHeaders.AUTHORIZATION;
+import static java.util.Optional.ofNullable;
+import static lombok.AccessLevel.PRIVATE;
+import static org.apache.commons.lang3.StringUtils.removeStart;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
-import static com.google.common.net.HttpHeaders.AUTHORIZATION;
-import static java.util.Optional.ofNullable;
-import static lombok.AccessLevel.PRIVATE;
-import static org.apache.commons.lang3.StringUtils.removeStart;
+import lombok.experimental.FieldDefaults;
 
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 public final class TokenAuthenticationFilter extends AbstractAuthenticationProcessingFilter {

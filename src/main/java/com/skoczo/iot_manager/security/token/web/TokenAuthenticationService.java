@@ -1,9 +1,9 @@
 package com.skoczo.iot_manager.security.token.web;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.ImmutableMap;
@@ -15,12 +15,14 @@ import com.skoczo.iot_manager.security.token.web.users.UserCrudService;
 final class TokenAuthenticationService implements UserAuthenticationService {
   @Autowired TokenService tokens;
   @Autowired UserCrudService users;
-
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+  
   @Override
-  public Optional<String> login(final String username, final String password) {
+  public Optional<String> login(final String username, final String password) {	  
     return users
       .findByUsername(username)
-      .filter(user -> Objects.equals(password, user.getPassword()))
+      .filter(user -> passwordEncoder.matches(password, user.getPassword()))
       .map(user -> tokens.expiring(ImmutableMap.of("username", username)));
   }
 

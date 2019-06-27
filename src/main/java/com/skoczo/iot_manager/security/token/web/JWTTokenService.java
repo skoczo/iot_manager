@@ -1,7 +1,21 @@
 package com.skoczo.iot_manager.security.token.web;
 
+import static io.jsonwebtoken.SignatureAlgorithm.HS256;
+import static io.jsonwebtoken.impl.TextCodec.BASE64;
+import static java.util.Objects.requireNonNull;
+import static lombok.AccessLevel.PRIVATE;
+import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableMap;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.JwtException;
@@ -9,18 +23,6 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
-
-import static io.jsonwebtoken.SignatureAlgorithm.HS256;
-import static io.jsonwebtoken.impl.TextCodec.BASE64;
-import static java.util.Objects.requireNonNull;
-import static lombok.AccessLevel.PRIVATE;
-import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 
 @Service
 @FieldDefaults(level = PRIVATE, makeFinal = true)

@@ -1,10 +1,11 @@
 package com.skoczo.iot_manager.security.token.web;
 
-import org.springframework.security.web.RedirectStrategy;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.springframework.security.web.RedirectStrategy;
 
 public class NoRedirectStrategy implements RedirectStrategy {
 

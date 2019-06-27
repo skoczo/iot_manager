@@ -1,6 +1,6 @@
 package com.skoczo.iot_manager.security.token.web.config;
 
-import org.springframework.stereotype.Component;
+import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,7 +9,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.springframework.stereotype.Component;
 
 @Component
 public class CorsFilter implements Filter {

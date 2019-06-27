@@ -3,28 +3,26 @@ package com.skoczo.iot_manager.controllers;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import javax.websocket.server.PathParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.skoczo.iot_manager.controllers.result.dto.TemperatureResultEntity;
-import com.skoczo.iot_manager.dao.temp.DeviceEntity;
 import com.skoczo.iot_manager.dao.temp.DeviceEntityRepository;
 import com.skoczo.iot_manager.dao.temp.SensorEntity;
 import com.skoczo.iot_manager.dao.temp.SensorEntityRepository;
 import com.skoczo.iot_manager.dao.temp.TemperatureEntity;
 import com.skoczo.iot_manager.dao.temp.TemperatureEntityRepository;
-import com.skoczo.iot_manager.dao.temp.TemperatureRestReqEntity;
 
 @RestController
 @RequestMapping("/data")
@@ -64,6 +62,10 @@ public class TemperatureController {
 		today.set(Calendar.MINUTE, 0);
 		today.set(Calendar.SECOND, 0);
 		today.set(Calendar.MILLISECOND, 0);
+		
+		if(Objects.isNull(sensorIds)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "sensorIds parameter is null");
+		}
 		
 		List<TemperatureResultEntity> result = new ArrayList<>();
 		

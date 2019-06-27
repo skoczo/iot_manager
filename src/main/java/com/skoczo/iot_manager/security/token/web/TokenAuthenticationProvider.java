@@ -1,8 +1,10 @@
 package com.skoczo.iot_manager.security.token.web;
 
-import lombok.AllArgsConstructor;
-import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import static lombok.AccessLevel.PACKAGE;
+import static lombok.AccessLevel.PRIVATE;
+
+import java.util.Optional;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,10 +13,9 @@ import org.springframework.stereotype.Component;
 
 import com.skoczo.iot_manager.security.token.web.users.UserAuthenticationService;
 
-import java.util.Optional;
-
-import static lombok.AccessLevel.PACKAGE;
-import static lombok.AccessLevel.PRIVATE;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import lombok.experimental.FieldDefaults;
 
 @Component
 @AllArgsConstructor(access = PACKAGE)
