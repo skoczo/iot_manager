@@ -1,5 +1,7 @@
 package com.skoczo.iot_manager.controllers;
 
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,12 +59,16 @@ public class IOTTemperatureController {
 		}
 
 		SensorEntity sensor = sensorRepository.findBySensorId(tempRestEnt.getSensorId());
-		if (sensor == null) {
+		if (Objects.isNull(sensor)) {
 			sensor = new SensorEntity();
 			sensor.setSensorId(tempRestEnt.getSensorId());
+			sensor.setDeviceId(tempRestEnt.getDeviceId());
+			sensor = sensorRepository.save(sensor);
+		} else if(Objects.isNull(sensor.getDeviceId())) {
+			sensor.setDeviceId(tempRestEnt.getDeviceId());
 			sensor = sensorRepository.save(sensor);
 		}
-
+ 
 		TemperatureEntity tempEnt = new TemperatureEntity(tempRestEnt);
 		tempEnt.setUserId(1);
 		tempEnt.setDevice(device);

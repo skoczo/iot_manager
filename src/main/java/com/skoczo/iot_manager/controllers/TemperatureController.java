@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.skoczo.iot_manager.controllers.result.dto.TemperatureResultEntity;
-import com.skoczo.iot_manager.dao.temp.DeviceEntityRepository;
 import com.skoczo.iot_manager.dao.temp.SensorEntity;
 import com.skoczo.iot_manager.dao.temp.SensorEntityRepository;
 import com.skoczo.iot_manager.dao.temp.TemperatureEntity;
@@ -31,9 +30,6 @@ public class TemperatureController {
 	
 	@Autowired
 	private TemperatureEntityRepository tempRepository;
-
-	@Autowired
-	private DeviceEntityRepository devRpository;
 	
 	@Autowired
 	private SensorEntityRepository sensorRepository;
@@ -80,8 +76,19 @@ public class TemperatureController {
 		return result;
 	}
 	
-	@GetMapping("/temperatures/{sensorId}/{from}/{to}")
-	public Iterable<TemperatureEntity> getTemperaturesTimeframe(@PathVariable String sensorId, @PathVariable Long from, @PathVariable Long to) {		
-		return tempRepository.findTemperaturesInTimeframe(sensorId,from, to);
+	@GetMapping("/temperatures/{from}/{to}")
+	public List<TemperatureResultEntity> getTemperaturesTimeframe(@PathParam("sensorIds") String[] sensorIds, @PathVariable Long from, @PathVariable Long to) {
+		List<TemperatureResultEntity> result = new ArrayList<>();
+
+		for(String sensorId : sensorIds) {
+			TemperatureResultEntity resEntity = new TemperatureResultEntity();
+			
+			SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
+			resEntity.setSensor(sensor);
+			resEntity.setTemperatures(tempRepository.findTemperaturesInTimeframe(sensorId,from, to));
+			result.add(resEntity);
+		}
+		
+		return result;
 	}
 }

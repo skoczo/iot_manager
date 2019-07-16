@@ -38,8 +38,6 @@ class SecurityConfig {
     new AntPathRequestMatcher("/public/users/**"));
   private static final RequestMatcher PROTECTED_URLS = new AndRequestMatcher(new NegatedRequestMatcher(PUBLIC_URLS), new NegatedRequestMatcher(iotUrl));
   
-  private RequestMatcher protetedURL = new AntPathRequestMatcher("/users/**");
-  
   @Configuration
   @Order(3)
   class BasicAuth extends WebSecurityConfigurerAdapter {

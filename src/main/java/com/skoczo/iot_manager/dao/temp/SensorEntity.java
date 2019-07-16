@@ -20,6 +20,6 @@ public class SensorEntity {
 	private Long id;
 	
 	private String sensorId;
-	
+	private String deviceId;
 	private String name;
 }

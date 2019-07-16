@@ -35,7 +35,7 @@ public class GroupController {
 	}
 
 	@PostMapping("/group/{groupName}")
-	public GroupEntity addSensorToGroup(@PathVariable String groupName) {
+	public GroupEntity createGroup(@PathVariable String groupName) {
 		GroupEntity group = new GroupEntity();
 		group.setName(groupName);
 		group.setUserId(userUtils.getLoggedUser().getId());
@@ -43,8 +43,31 @@ public class GroupController {
 		return groupRepository.save(group);
 	}
 
+	/**
+	 * 
+	 * @param groupId   group id
+	 * @param groupName group name to set
+	 * @return saved group entity
+	 */
+	@PostMapping("/group/{groupId}/rename/{groupName}")
+	public GroupEntity renameGroup(@PathVariable Long groupId, @PathVariable String groupName) {
+		Optional<GroupEntity> groupOptional = groupRepository.findById(groupId);
+
+		if (groupOptional.isPresent()) {
+			GroupEntity group = groupOptional.get();
+			if (userUtils.checkIfUserIsPermitted(group.getUserId())) {
+				group.setName(groupName);
+				return groupRepository.save(group);
+			} else {
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Group belong to other user");
+			}
+		} else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "group not found");
+		}
+	}
+
 	@PostMapping("/group/{groupId}/add/{sensorId}")
-	public GroupEntity addSensorToGroup(@PathVariable Long groupId, @PathVariable String sensorId) throws Exception {
+	public GroupEntity addSensorToGroup(@PathVariable Long groupId, @PathVariable String sensorId)  {
 		SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
 
 		Optional<GroupEntity> group = groupRepository.findById(groupId);
@@ -53,7 +76,7 @@ public class GroupController {
 				group.get().getSensors().add(sensor);
 				return groupRepository.save(group.get());
 			} else {
-				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Sensor belong to other user");
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Group belong to other user");
 			}
 		} else {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Sensor or group not found");
@@ -61,7 +84,7 @@ public class GroupController {
 	}
 
 	@DeleteMapping("/group/{groupId}/delete/{sensorId}")
-	public void removeSensorFromGroup(@PathVariable Long groupId, @PathVariable String sensorId) throws Exception {
+	public void removeSensorFromGroup(@PathVariable Long groupId, @PathVariable String sensorId)  {
 		SensorEntity sensor = sensorRepository.findBySensorId(sensorId);
 
 		Optional<GroupEntity> group = groupRepository.findById(groupId);

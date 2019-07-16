@@ -12,4 +12,8 @@ public class UserUtils {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		return (User) authentication.getPrincipal();
 	}
+	
+	public boolean checkIfUserIsPermitted(Integer userId) {
+		return getLoggedUser().getId().equals(userId);
+	}
 }
